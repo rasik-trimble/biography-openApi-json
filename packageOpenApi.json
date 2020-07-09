@@ -2,7 +2,7 @@
    "openapi":"3.0.1",
    "info":{
       "title":"Package Services",
-      "description":"# Overview\n\n The Global SKU (Grizzly) Enterprise Services team will be responsible for developing and supporting a suite of tools and services to support the entire range of Global SKU (Grizzly) hardware products.\n\n# Basepath URL\n\n**Dev** - ```https://api-stg-use1.trimblepaas.com/gsku-dev-services-v1.0/```\n\n\n**Prod** - ```https://api-stg-use1.trimblepaas.com/gsku-dev-services-v1.0/```\n\n# Authorization\n\nThe service will be secured through API Auth Server. Thus requiring an\n'Authorization' header in all requests. The value of the header can be picked up from Trimble APICloud which will be Bearer token. You have to send a valid\n```Access Token``` in the Authorization header, using the ```Bearer```\nauthentication scheme.\n\nFormat: ```Bearer <access_token>```\n",
+      "description":"# Overview\n\n The Global SKU (Grizzly) Enterprise Services team will be responsible for developing and supporting a suite of tools and services to support the entire range of Global SKU (Grizzly) hardware products.\n\n# Basepath URL\n\n**Stage** - ```https://api-stg-use1.trimblepaas.com/gsku-services-stg-v1.0/```\n\n\n**Prod** - ```https://api-stg-use1.trimblepaas.com/gsku-services-stg-v1.0/```\n\n# Authorization\n\nThe service will be secured through API Auth Server. Thus requiring an\n'Authorization' header in all requests. The value of the header can be picked up from Trimble APICloud which will be Bearer token. You have to send a valid\n```Access Token``` in the Authorization header, using the ```Bearer```\nauthentication scheme.\n\nFormat: ```Bearer <access_token>```\n",
       "contact":{
          "name":"GLOBAL-SKU",
          "url":"https://sites.google.com/trimble.com/ttm/teams/global-sku",
@@ -16,8 +16,8 @@
    },
    "servers":[
       {
-         "url":"https://api-stg-use1.trimblepaas.com/gsku-services-dev-v1.0",
-         "description":"Dev environment"
+         "url":"https://api-stg-use1.trimblepaas.com/gsku-services-stg-v1.0",
+         "description":"Stage environment"
       }
    ],
    "tags":[
