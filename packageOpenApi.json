@@ -53,9 +53,6 @@
                      "application/json":{
                         "schema":{
                            "$ref":"#/components/schemas/PackageAutoCompleteResponse"
-                        },
-                        "examples":{
-                            
                         }
                      }
                   }
@@ -101,9 +98,6 @@
                      "application/json":{
                         "schema":{
                            "$ref":"#/components/schemas/PackageResponse"
-                        },
-                        "examples":{
-                            
                         }
                      }
                   }
@@ -133,9 +127,6 @@
                   "application/json":{
                      "schema":{
                         "$ref":"#/components/schemas/PublishRequest"
-                     },
-                     "examples":{
-                         
                      }
                   }
                },
@@ -200,9 +191,6 @@
                      "application/json":{
                         "schema":{
                            "$ref":"#/components/schemas/StorageResponse"
-                        },
-                        "examples":{
-
                         }
                      }
                   }
@@ -232,9 +220,6 @@
                   "application/json":{
                      "schema":{
                         "$ref":"#/components/schemas/PromoteRequest"
-                     },
-                     "examples":{
-
                      }
                   }
                },
@@ -257,9 +242,6 @@
                      "application/json":{
                         "schema":{
                            "$ref":"#/components/schemas/PromoteResponse"
-                        },
-                        "examples":{
-
                         }
                      }
                   }
@@ -346,9 +328,6 @@
                   "type":"array",
                   "items":{
                      "$ref":"#/components/schemas/Package"
-                  },
-                  "examples":{
-
                   }
                }
             }
@@ -398,9 +377,6 @@
                   "type":"array",
                   "items":{
                      "$ref":"#/components/schemas/Package"
-                  },
-                  "examples":{
-
                   }
                }
             }
