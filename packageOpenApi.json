@@ -2,7 +2,7 @@
    "openapi":"3.0.1",
    "info":{
       "title":"Package Services",
-      "description":"# Overview\n\n The Global SKU (Grizzly) Enterprise Services team will be responsible for developing and supporting a suite of tools and services to support the entire range of Global SKU (Grizzly) hardware products.\n\n# Basepath URL\n\n**Stage** - ```https://api-stg-use1.trimblepaas.com/gsku-services-stg-v1.0/```\n\n\n**Prod** - ```https://api-stg-use1.trimblepaas.com/gsku-services-stg-v1.0/```\n\n# Authorization\n\nThe service will be secured through API Auth Server. Thus requiring an\n'Authorization' header in all requests. The value of the header can be picked up from Trimble APICloud which will be Bearer token. You have to send a valid\n```Access Token``` in the Authorization header, using the ```Bearer```\nauthentication scheme.\n\nFormat: ```Bearer <access_token>```\n",
+      "description":"# Overview\n\n The Global SKU (Grizzly) Enterprise Services team will be responsible for developing and supporting a suite of tools and services to support the entire range of Global SKU (Grizzly) hardware products.\n\n# Basepath URL\n\n**Stage** - ```https://api-stg.trimble.com/t/trimble.com/gsku-services/1.0/```\n\n\n**Prod** - ```https://api.trimble.com/t/trimble.com/gsku-services/1.0/```\n\n# Authorization\n\nThe service will be secured through API Auth Server. Thus requiring an\n'Authorization' header in all requests. The value of the header can be picked up from Trimble APICloud which will be Bearer token. You have to send a valid\n```Access Token``` in the Authorization header, using the ```Bearer```\nauthentication scheme.\n\nFormat: ```Bearer <access_token>```\n",
       "contact":{
          "name":"GLOBAL-SKU",
          "url":"https://sites.google.com/trimble.com/ttm/teams/global-sku",
@@ -16,7 +16,7 @@
    },
    "servers":[
       {
-         "url":"https://api-stg-use1.trimblepaas.com/gsku-services-stg-v1.0",
+         "url":"https://api-stg.trimble.com/t/trimble.com/gsku-services/1.0",
          "description":"Stage environment"
       }
    ],
@@ -112,6 +112,35 @@
                   "description":"You are not authorized to view the resource"
                }
             }
+         },
+         "post":{
+            "tags":[
+               "Packages"
+            ],
+            "operationId":"savePackageDetails",
+            "requestBody":{
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/Package"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"OK",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "type":"integer",
+                           "format":"int64"
+                        }
+                     }
+                  }
+               }
+            }
          }
       },
       "/packages/publish":{
@@ -166,24 +195,18 @@
             "parameters":[
                {
                   "name":"file",
-                  "description":"Package file to be uploaded"
-               }
-            ],
-            "requestBody":{
-               "content":{
-                  "application/json":{
-                     "schema":{
-                        "type":"object",
-                        "properties":{
-                           "file":{
-                              "type":"string",
-                              "format":"binary"
-                           }
-                        }
+                  "in":"query",
+                  "description":"Package file to be uploaded",
+                  "required":true,
+                  "schema":{
+                     "type":"array",
+                     "items":{
+                        "type":"string",
+                        "format":"binary"
                      }
                   }
                }
-            },
+            ],
             "responses":{
                "200":{
                   "description":"Successfully uploaded the package",
@@ -316,17 +339,6 @@
                   "type":"boolean"
                }
             }
-         },"PackagePromoteDto":{
-            "type":"object",
-            "properties":{
-               "id":{
-                  "type":"integer",
-                  "format":"int64"
-               },
-               "promoted":{
-                  "type":"boolean"
-               }
-            }
          },
          "PackageResponse":{
             "type":"object",
@@ -387,7 +399,7 @@
                "packages":{
                   "type":"array",
                   "items":{
-                     "$ref":"#/components/schemas/PackagePromoteDto"
+                     "$ref":"#/components/schemas/Package"
                   }
                }
             }
