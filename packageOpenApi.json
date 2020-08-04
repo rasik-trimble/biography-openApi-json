@@ -339,6 +339,17 @@
                   "type":"boolean"
                }
             }
+         },"PackagePromoteDto":{
+            "type":"object",
+            "properties":{
+               "id":{
+                  "type":"integer",
+                  "format":"int64"
+               },
+               "promoted":{
+                  "type":"boolean"
+               }
+            }
          },
          "PackageResponse":{
             "type":"object",
@@ -399,7 +410,7 @@
                "packages":{
                   "type":"array",
                   "items":{
-                     "$ref":"#/components/schemas/Package"
+                     "$ref":"#/components/schemas/PackagePromoteDto"
                   }
                }
             }
