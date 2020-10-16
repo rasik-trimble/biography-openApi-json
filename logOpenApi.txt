@@ -1,0 +1,218 @@
+{
+   "openapi":"3.0.1",
+   "info":{
+      "title":"Log Services",
+      "description":"# Overview\n\n The Global SKU (Grizzly) Enterprise Services team will be responsible for developing and supporting a suite of tools and services to support the entire range of Global SKU (Grizzly) hardware products.\n\n# Basepath URL\n\n**Stage** - ```https://api-stg.trimble.com/t/trimble.com/gsku-services/1.0/```\n\n\n**Prod** - ```https://api.trimble.com/t/trimble.com/gsku-services/1.0/```\n\n# Authorization\n\nThe service will be secured through API Auth Server. Thus requiring an\n'Authorization' header in all requests. The value of the header can be picked up from Trimble APICloud which will be Bearer token. You have to send a valid\n```Access Token``` in the Authorization header, using the ```Bearer```\nauthentication scheme.\n\nFormat: ```Bearer <access_token>```\n",
+      "contact":{
+         "name":"GLOBAL-SKU",
+         "url":"https://sites.google.com/trimble.com/ttm/teams/global-sku",
+         "email":"globalskuserviceschennai-ug@trimble.com"
+      },
+      "version":"v0.0.1",
+      "x-logo":{
+         "altText":"Trimble GSKU logo",
+         "url":"https://lh6.googleusercontent.com/lwEt0yOz6gsDEsizsUfPTfHaK8AKDStV3pplkqrYwSFquxe5kX9itISFOSKi2uvapwfC9RW1=w16383"
+      }
+   },
+   "servers":[
+      {
+         "url":"https://api-stg.trimble.com/t/trimble.com/gsku-services/1.0",
+         "description":"Stage environment"
+      }
+   ],
+   "tags":[
+      {
+         "name":"Logs",
+         "description":"API's related to Logs"
+      }
+   ],
+   "paths":{
+      "/logs":{
+         "get":{
+            "tags":[
+               "Logs"
+            ],
+            "summary":"Get Log Events",
+            "description":"Get latest Log Events by limit",
+            "operationId":"getLogEvents",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of log events to be fetched",
+                  "required":true,
+                  "schema":{
+                     "type":"integer",
+                     "format":"int32"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Successfully fetched log events",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "$ref":"#/components/schemas/LogEventsResponse"
+                        }
+                     }
+                  }
+               },
+               "404":{
+                  "description":"The resource you were trying to reach is not found"
+               },
+               "403":{
+                  "description":"Accessing the resource you were trying to reach is forbidden"
+               },
+               "401":{
+                  "description":"You are not authorized to view the resource"
+               }
+            }
+         }
+      },
+      "/logs/request":{
+         "post":{
+            "tags":[
+               "Logs"
+            ],
+            "summary":"Log Request",
+            "description":"To request logs for DSN",
+            "operationId":"requestLogEvents",
+            "parameters":[
+               {
+                  "name":"logRetrievalRequest",
+                  "description":"Request should contain a DSN array, type of log request & requested by user",
+                  "required":true
+               }
+            ],
+            "requestBody":{
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/LogRetrievalRequest"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "200":{
+                  "description":"Successfully requested logs for all DSN's",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "$ref":"#/components/schemas/LogServiceResponse"
+                        }
+                     }
+                  }
+               },
+               "207":{
+                  "description":"Requested Logs with partial success.",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "$ref":"#/components/schemas/LogServiceResponse"
+                        }
+                     }
+                  }
+               },
+               "404":{
+                  "description":"The resource you were trying to reach is not found"
+               },
+               "403":{
+                  "description":"Accessing the resource you were trying to reach is forbidden"
+               },
+               "401":{
+                  "description":"You are not authorized to view the resource"
+               }
+            }
+         }
+      }
+   },
+   "components":{
+      "schemas":{
+         "LogEvents":{
+            "type":"object",
+            "properties":{
+               "deviceSerialNumber":{
+                  "type":"string"
+               },
+               "requestTimestamp":{
+                  "type":"string"
+               },
+               "receivedTimestamp":{
+                  "type":"string"
+               },
+               "requestUser":{
+                  "type":"string"
+               },
+               "status":{
+                  "type":"string"
+               },
+               "downloadUrl":{
+                  "type":"string"
+               }
+            }
+         },
+         "LogEventsResponse":{
+            "type":"object",
+            "properties":{
+               "logEvents":{
+                  "type":"array",
+                  "items":{
+                     "$ref":"#/components/schemas/LogEvents"
+                  }
+               }
+            }
+         },
+         "LogServiceResponse":{
+            "type":"object",
+            "properties":{
+               "metadata":{
+                  "type":"object",
+                  "additionalProperties":{
+                     "type":"integer",
+                     "format":"int32"
+                  }
+               },
+               "dsnList":{
+                  "type":"array",
+                  "items":{
+                     "type":"object",
+                     "additionalProperties":{
+                        "type":"object"
+                     }
+                  }
+               }
+            }
+         },
+         "LogRetrievalRequest":{
+            "type":"object",
+            "properties":{
+               "deviceSerialNumber":{
+                  "type":"array",
+                  "items":{
+                     "type":"string"
+                  }
+               },
+               "logRequest":{
+                  "type":"object",
+                  "additionalProperties":{
+                     "type":"boolean"
+                  }
+               },
+               "requestedBy":{
+                  "type":"string"
+               }
+            }
+         }
+      },
+      "securitySchemes":{
+         "Bearer-key":{
+            "type":"http",
+            "scheme":"bearer",
+            "bearerFormat":"JWT"
+         }
+      }
+   }
+}
