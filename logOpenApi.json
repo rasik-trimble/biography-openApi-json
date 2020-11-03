@@ -168,41 +168,83 @@
          "LogServiceResponse":{
             "type":"object",
             "properties":{
-               "metadata":{
-                  "type":"object",
-                  "additionalProperties":{
-                     "type":"integer",
-                     "format":"int32"
-                  }
+               "metaData":{
+                  "$ref":"#/components/schemas/MetaData"
                },
-               "dsnList":{
+               "data":{
                   "type":"array",
                   "items":{
-                     "type":"object",
-                     "additionalProperties":{
-                        "type":"object"
-                     }
+                     "$ref":"#/components/schemas/ResponseDetail"
                   }
+               }
+            }
+         },
+         "MetaData":{
+            "type":"object",
+            "properties":{
+               "success":{
+                  "type":"integer",
+                  "format":"int32"
+               },
+               "failure":{
+                  "type":"integer",
+                  "format":"int32"
+               }
+            }
+         },
+         "ResponseDetail":{
+            "type":"object",
+            "properties":{
+               "dsn":{
+                  "type":"integer",
+                  "format":"int64"
+               },
+               "statusCode":{
+                  "type":"integer",
+                  "format":"int32"
+               },
+               "description":{
+                  "type":"string"
+               }
+            }
+         },
+         "Log":{
+            "type":"object",
+            "properties":{
+               "dsn":{
+                  "type":"integer",
+                  "format":"int64"
+               },
+               "modules":{
+                  "$ref":"#/components/schemas/Module"
+               },
+               "email":{
+                  "type":"string"
                }
             }
          },
          "LogRetrievalRequest":{
             "type":"object",
             "properties":{
-               "deviceSerialNumber":{
+               "logs":{
                   "type":"array",
                   "items":{
-                     "type":"string"
+                     "$ref":"#/components/schemas/Log"
                   }
+               }
+            }
+         },
+         "Module":{
+            "type":"object",
+            "properties":{
+               "product":{
+                  "type":"boolean"
                },
-               "logRequest":{
-                  "type":"object",
-                  "additionalProperties":{
-                     "type":"boolean"
-                  }
+               "system":{
+                  "type":"boolean"
                },
-               "requestedBy":{
-                  "type":"string"
+               "platform":{
+                  "type":"boolean"
                }
             }
          }
