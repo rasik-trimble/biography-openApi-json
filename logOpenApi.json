@@ -96,7 +96,7 @@
                "required":true
             },
             "responses":{
-               "200":{
+               "202":{
                   "description":"Successfully requested logs for all DSN's",
                   "content":{
                      "application/json":{
