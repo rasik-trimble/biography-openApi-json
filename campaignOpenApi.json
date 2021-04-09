@@ -1,0 +1,382 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Campaign Services",
+        "description": "# Overview\n\n The Global SKU (Grizzly) Enterprise Services team will be responsible for developing and supporting a suite of tools and services to support the entire range of Global SKU (Grizzly) hardware products.\n\n# Basepath URL\n\n**Stage** - ```https://api-stg.trimble.com/t/trimble.com/gsku-services/1.0/```\n\n\n**Prod** - ```https://api.trimble.com/t/trimble.com/gsku-services/1.0/```\n\n# Authorization\n\nThe service will be secured through API Auth Server. Thus requiring an\n'Authorization' header in all requests. The value of the header can be picked up from Trimble APICloud which will be Bearer token. You have to send a valid\n```Access Token``` in the Authorization header, using the ```Bearer```\nauthentication scheme.\n\nFormat: ```Bearer <access_token>```\n",
+        "contact": {
+            "name": "GLOBAL-SKU",
+            "url": "https://sites.google.com/trimble.com/ttm/teams/global-sku",
+            "email": "globalskuserviceschennai-ug@trimble.com"
+        },
+        "version": "v0.0.1",
+        "x-logo": {
+            "altText": "Trimble GSKU logo",
+            "url": "https://tools.dev.transportation.trimble.com/static/media/Trimble_nav_banner.1e387b5f.png"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://api-stg.trimble.com/t/trimble.com/gsku-services/1.0",
+            "description": "Stage environment"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Campaign Create",
+            "description": "API's related to Creating Campaign"
+        }
+    ],
+    "paths": {
+        "/campaign": {
+            "put": {
+                "tags": [
+                    "Campaign Create"
+                ],
+                "summary": "Update Campaign",
+                "description": "To Update the campaign and related devices",
+                "operationId": "updateCampaignDetails",
+                "parameters": [
+                    {
+                        "name": "UpdateRequest",
+                        "description": "Should contain the details related to campaign| devices",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "204": {
+                        "description": "Successfully updated the campaign details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Accessing the resource you were trying to reach is forbidden"
+                    },
+                    "401": {
+                        "description": "You are not authorized to view the resource"
+                    },
+                    "400": {
+                        "description": "The request parameter is invalid"
+                    },
+                    "500": {
+                        "description": "The dsn supplied for campaign creation are not valid"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Campaign Create"
+                ],
+                "summary": "Create Campaign",
+                "description": "To Create the campaign",
+                "operationId": "createCampaign",
+                "parameters": [
+                    {
+                        "name": "campaignRequest",
+                        "description": "Should contain the details related to campaign",
+                        "required": true
+                    },
+                    {
+                        "name": "createdBy",
+                        "description": "Should contain the name of the user who is creating the campaign",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CampaignRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully created the campaign",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Accessing the resource you were trying to reach is forbidden"
+                    },
+                    "401": {
+                        "description": "You are not authorized to view the resource"
+                    },
+                    "400": {
+                        "description": "The request parameter is invalid"
+                    },
+                    "500": {
+                        "description": "The dsn supplied for campaign creation are not valid"
+                    }
+                }
+            }
+        },
+        "/campaign/devices/cache/{cacheId}": {
+            "get": {
+                "tags": [
+                    "cache-controller"
+                ],
+                "summary": "Get Report",
+                "description": "To Get the report based on the supplied Report type",
+                "operationId": "getReport",
+                "parameters": [
+                    {
+                        "name": "cacheId",
+                        "in": "path",
+                        "description": "Should contain the UUID which was retunred during create cache",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "reportType",
+                        "in": "query",
+                        "description": "Should contain the type of report being requested",
+                        "required": true,
+                        "schema": {
+                            "pattern": "summary|customer|deviceType",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Accessing the resource you were trying to reach is forbidden"
+                    },
+                    "401": {
+                        "description": "You are not authorized to view the resource"
+                    },
+                    "400": {
+                        "description": "The request parameter is invalid"
+                    }
+                }
+            }
+        },
+        "/campaign/devices": {
+            "put": {
+                "tags": [
+                    "cache-controller"
+                ],
+                "summary": "Remove Devices",
+                "description": "To Remove in_use or no_access Dsn form campaign creation",
+                "operationId": "removeDevices",
+                "parameters": [
+                    {
+                        "name": "updateCacheRequest",
+                        "description": "Should contain the details needed to remove dsn",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCacheRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "204": {
+                        "description": "Successfully updated Cache",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Accessing the resource you were trying to reach is forbidden"
+                    },
+                    "401": {
+                        "description": "You are not authorized to view the resource"
+                    },
+                    "400": {
+                        "description": "The request parameters are invalid"
+                    }
+                }
+            }
+        },
+        "/campaign/devices/cache": {
+            "post": {
+                "tags": [
+                    "cache-controller"
+                ],
+                "summary": "Create DSN cache",
+                "description": "To create cache of DSNs which will be used in the campaign",
+                "operationId": "initialiseCache",
+                "parameters": [
+                    {
+                        "name": "cacheRequest",
+                        "description": "Request should contain list of DSNs",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CacheRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully initialised cache",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Accessing the resource you were trying to reach is forbidden"
+                    },
+                    "401": {
+                        "description": "You are not authorized to view the resource"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CampaignRequest": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "pattern": "^[a-zA-Z0-9\\s]+$",
+                        "type": "string"
+                    },
+                    "cacheId": {
+                        "type": "string"
+                    },
+                    "firmwareId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "firmwareType": {
+                        "pattern": "bundles|packages",
+                        "type": "string"
+                    },
+                    "rollOutType": {
+                        "pattern": "immediate|onApproval|scheduled",
+                        "type": "string"
+                    },
+                    "rollOutTime": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "sizeInBytes": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
+            "UpdateRequest": {
+                "required": [
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "dsn": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateCacheRequest": {
+                "required": [
+                    "cacheId",
+                    "category",
+                    "operation"
+                ],
+                "type": "object",
+                "properties": {
+                    "cacheId": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "pattern": "in_use|no_access",
+                        "type": "string"
+                    },
+                    "operation": {
+                        "pattern": "remove",
+                        "type": "string"
+                    }
+                }
+            },
+            "CacheRequest": {
+                "required": [
+                    "dsn"
+                ],
+                "type": "object",
+                "properties": {
+                    "dsn": {
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "Bearer-key": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
