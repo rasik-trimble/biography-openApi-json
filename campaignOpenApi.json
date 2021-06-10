@@ -22,7 +22,7 @@
   ],
   "tags": [
     {
-      "name": "Campaign Create",
+      "name": "Campaign Manage",
       "description": "API's related to Managing Campaign"
     },
     {
@@ -383,7 +383,7 @@
     },
     "/campaign/manage": {
       "get": {
-        "tags": ["Campaign Create"],
+        "tags": ["Campaign Manage"],
         "summary": "GET all Campaign Details",
         "description": "To Get the details of the campaign",
         "operationId": "getCampaignDetails",
@@ -441,7 +441,7 @@
         }
       },
       "put": {
-        "tags": ["Campaign Create"],
+        "tags": ["Campaign Manage"],
         "summary": "Update Campaign Details",
         "description": "To approve or reject or cancel list of campaigns",
         "operationId": "updateCampaign",
@@ -480,7 +480,7 @@
     },
     "/campaign/manage/{campaignId}": {
       "get": {
-        "tags": ["Campaign Create"],
+        "tags": ["Campaign Manage"],
         "summary": "GET Individual Campaign Details",
         "description": "To Get the details of the campaign",
         "operationId": "getCampaignDeviceDetail",
