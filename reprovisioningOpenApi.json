@@ -1,0 +1,554 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Re-Provisioning Services",
+    "description": "# Overview\n\n The Global SKU (Grizzly) Enterprise Services team will be responsible for developing and supporting a suite of tools and services to support the entire range of Global SKU (Grizzly) hardware products.\n\n# Basepath URL\n\n**Stage** - ```https://cloud.stage.api.trimblecloud.com/gsku-services/1.0```\n\n\n**Prod** - ```https://cloud.api.trimble.com/gsku-services/1.0```\n\n# Authorization\n\nThe service will be secured through API Auth Server. Thus requiring an\n'Authorization' header in all requests. The value of the header can be picked up from Trimble APICloud which will be Bearer token. You have to send a valid\n```Access Token``` in the Authorization header, using the ```Bearer```\nauthentication scheme.\n\nFormat: ```Bearer <access_token>```\n",
+    "contact": {
+      "name": "GLOBAL-SKU",
+      "url": "https://sites.google.com/trimble.com/ttm/teams/global-sku",
+      "email": "globalskuserviceschennai-ug@trimble.com"
+    },
+    "version": "v0.0.1",
+    "x-logo": {
+      "altText": "Trimble GSKU logo",
+      "url": "https://tools.dev.transportation.trimble.com/static/media/Trimble_nav_banner.1e387b5f.png"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://cloud.stage.api.trimblecloud.com/gsku-services/1.0/",
+      "description": "Stage environment"
+    }
+  ],
+  "paths": {
+    "/re-provisioning/verify": {
+      "post": {
+        "tags": ["re-provisioning-controller"],
+        "summary": "Verify DSN",
+        "description": "To verify the dsn to provision",
+        "operationId": "verify",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/VerifyRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully verified all dsn",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/VerifyResponse" }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          }
+        }
+      }
+    },
+    "/re-provisioning/move": {
+      "post": {
+        "tags": ["re-provisioning-controller"],
+        "summary": "Move Device",
+        "description": "To move the device",
+        "operationId": "move",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateBatchRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created a event to move the device",
+            "content": {
+              "application/json": { "schema": { "type": "string" } }
+            }
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          }
+        }
+      }
+    },
+    "/re-provisioning": {
+      "get": {
+        "tags": ["re-provisioning-controller"],
+        "summary": "Get Batch Events",
+        "description": "Get list of batch events",
+        "operationId": "fetchBatchEvents",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Search key for batch",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "No of events to be fetched",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully fetched batch events",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BatchEventResponse" }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          }
+        }
+      },
+      "put": {
+        "tags": ["re-provisioning-controller"],
+        "summary": "Update Device",
+        "description": "To update the device status",
+        "operationId": "deviceUpdate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DeviceUpdateRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": { "description": "Successfully updated the device status" },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          }
+        }
+      }
+    },
+    "/re-provisioning/retry": {
+      "put": {
+        "tags": ["re-provisioning-controller"],
+        "summary": "Retry",
+        "description": "To retry add/delete",
+        "operationId": "importRetry",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ImportRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully initiated a retry request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ImportResponse" }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          }
+        }
+      }
+    },
+    "/re-provisioning/autocomplete": {
+      "get": {
+        "tags": ["re-provisioning-controller"],
+        "summary": "Get Batch Name Autocomplete",
+        "description": "Get list of batch name",
+        "operationId": "fetchBatchNames",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Search key for batch name",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully fetched matching batch names",
+            "content": {
+              "application/json": { "schema": { "type": "string" } }
+            }
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          }
+        }
+      }
+    },
+    "/re-provisioning/{batchId}": {
+      "get": {
+        "tags": ["re-provisioning-controller"],
+        "summary": "Get Batch Events by Id",
+        "description": "Get list of batch event details by id",
+        "operationId": "fetchBatchEventDetail",
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully fetched batch event details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchEventDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          }
+        }
+      }
+    },
+    "/re-provisioning/import": {
+      "put": {
+        "tags": ["re-provisioning-controller"],
+        "summary": "Device Import",
+        "description": "To import the device",
+        "operationId": "deviceImport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ImportRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully imported all the device's",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ImportResponse" }
+              }
+            }
+          },
+          "207": {
+            "description": "Partially imported all the device's",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ImportResponse" }
+              }
+            }
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DsnDetail": {
+        "type": "object",
+        "properties": {
+          "dsn": { "type": "integer", "format": "int64" },
+          "status": { "type": "string" }
+        }
+      },
+      "VerifyResponse": {
+        "type": "object",
+        "properties": {
+          "sourceEnvironment": { "type": "string" },
+          "accessible": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" }
+          },
+          "invalid": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" }
+          },
+          "nonAccessible": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DsnDetail" }
+          }
+        }
+      },
+      "VerifyRequest": {
+        "required": ["dsnList"],
+        "type": "object",
+        "properties": {
+          "dsnList": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" }
+          }
+        }
+      },
+      "CreateBatchRequest": {
+        "required": [
+          "destinationEnvironment",
+          "dsnList",
+          "name",
+          "sourceEnvironment"
+        ],
+        "type": "object",
+        "properties": {
+          "name": { "pattern": "^[a-zA-Z0-9\\s]+$", "type": "string" },
+          "dsnList": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" }
+          },
+          "sourceEnvironment": {
+            "pattern": "qa|staging|prod",
+            "type": "string"
+          },
+          "destinationEnvironment": {
+            "pattern": "qa|staging|prod",
+            "type": "string"
+          },
+          "description": { "type": "string" }
+        }
+      },
+      "DeviceUpdateRequest": {
+        "required": ["dsn", "status"],
+        "type": "object",
+        "properties": {
+          "dsn": { "type": "integer", "format": "int64" },
+          "status": { "type": "string" },
+          "message": { "type": "string" },
+          "destinationEnvironment": { "type": "string" }
+        }
+      },
+      "DeviceStatus": {
+        "type": "object",
+        "properties": {
+          "dsn": { "type": "string" },
+          "sku": { "type": "string" },
+          "validData": { "type": "boolean" },
+          "errorMessage": { "type": "string" }
+        }
+      },
+      "ImportResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": { "type": "integer", "format": "int32" },
+          "DeviceStatus": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DeviceStatus" }
+          }
+        }
+      },
+      "DeviceEvents": {
+        "type": "object",
+        "properties": {
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the device"
+          },
+          "model": {
+            "type": "string",
+            "description": "The model of the device"
+          },
+          "deviceSerialNumber": {
+            "type": "string",
+            "description": "Device Serial Number"
+          },
+          "torId": { "type": "string", "description": "The torId of device" },
+          "createdTimestamp": {
+            "type": "string",
+            "description": "Created timestamp of the record"
+          },
+          "eventTimestamp": {
+            "type": "string",
+            "description": "Timestamp when event occurred"
+          },
+          "generatedBy": {
+            "type": "string",
+            "description": "Who generated the event"
+          },
+          "eventType": { "type": "string", "description": "Type of event" },
+          "eventDetails": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "description": "The details of events as JSON"
+            },
+            "description": "The details of events as JSON"
+          },
+          "metaData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "description": "The meta data as JSON"
+            },
+            "description": "The meta data as JSON"
+          },
+          "eventStatus": {
+            "type": "string",
+            "description": "The status of the event"
+          }
+        }
+      },
+      "ImportRequest": {
+        "required": ["dsnList", "sourceEnvironment", "type"],
+        "type": "object",
+        "properties": {
+          "type": { "pattern": "add|delete|retry", "type": "string" },
+          "batchId": { "type": "integer", "format": "int64" },
+          "dsnList": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" }
+          },
+          "devices": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DeviceEvents" }
+          },
+          "sourceEnvironment": {
+            "pattern": "qa|staging|prod",
+            "type": "string"
+          },
+          "destinationEnvironment": {
+            "pattern": "qa|staging|prod",
+            "type": "string"
+          }
+        }
+      },
+      "BatchEventDO": {
+        "type": "object",
+        "properties": {
+          "batchId": { "type": "integer", "format": "int64" },
+          "createdTimestamp": { "type": "string", "format": "date-time" },
+          "batchName": { "type": "string" },
+          "createdBy": { "type": "string" },
+          "skuMixed": { "type": "boolean" },
+          "sourceEnv": { "type": "string" },
+          "destinationEnv": { "type": "string" },
+          "status": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      },
+      "BatchEventResponse": {
+        "type": "object",
+        "properties": {
+          "metaData": {
+            "type": "object",
+            "additionalProperties": { "type": "integer", "format": "int64" }
+          },
+          "batchEvents": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/BatchEventDO" }
+          }
+        }
+      },
+      "BatchEventDetailDO": {
+        "type": "object",
+        "properties": {
+          "dsn": { "type": "integer", "format": "int64" },
+          "status": { "type": "string" },
+          "errorMessage": { "type": "string" },
+          "isRetryable": { "type": "boolean" }
+        }
+      },
+      "BatchEventDetailResponse": {
+        "type": "object",
+        "properties": {
+          "metaData": { "$ref": "#/components/schemas/MetaData" },
+          "batchEventDetail": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/BatchEventDetailDO" }
+          }
+        }
+      },
+      "MetaData": {
+        "type": "object",
+        "properties": {
+          "totalCount": { "type": "integer", "format": "int32" },
+          "batchId": { "type": "integer", "format": "int64" },
+          "status": { "type": "string" },
+          "sourceEnv": { "type": "string" },
+          "destinationEnv": { "type": "string" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer-key": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
